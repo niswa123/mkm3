@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Лаборатория Математического Маятника</title>
+    <!-- Google Fonts for beautiful typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app-container">
+      
+      <!-- Top Title Bar -->
+      <header id="lab-header">
+        <div class="logo-area">
+          <span class="icon">⚛️</span>
+          <h1>Компьютерное моделирование: Математический маятник</h1>
+        </div>
+        <div class="header-metadata">
+          <span class="badge">3D Лаборатория</span>
+          <span class="badge" id="current-mode-badge">Режим: Проект 1.9</span>
+        </div>
+      </header>
+
+      <!-- Main Workspace Grid -->
+      <main id="lab-workspace">
+        
+        <!-- Left Column: 3D Visualization & Floating Overlay -->
+        <section id="left-column">
+          <div id="visualizer-container-wrapper">
+            <!-- 3D Render Window -->
+            <div id="visualizer-container"></div>
+            
+            <!-- Floating Overlay with Quick Controls -->
+            <div class="floating-controls glass-panel">
+              <button id="btn-toggle-vectors" class="control-toggle active" title="Показать векторы сил">
+                <span class="icon">🏹</span> Векторы
+              </button>
+              <button id="btn-toggle-trail" class="control-toggle active" title="Показать траекторию">
+                <span class="icon">✨</span> Шлейф
+              </button>
+              <button id="btn-reset-camera" class="control-btn" title="Сбросить камеру">
+                <span class="icon">🎥</span> Камера
+              </button>
+              <button id="btn-clear-trail" class="control-btn" title="Очистить шлейф">
+                <span class="icon">🧹</span> Стереть
+              </button>
+            </div>
+            
+            <!-- Real-time Bob Telemetry Overlay -->
+            <div class="floating-telemetry glass-panel">
+              <div class="tel-item"><span class="label">t:</span> <span id="tel-time" class="value">0.00s</span></div>
+              <div class="tel-item"><span class="label">Angle (φ):</span> <span id="tel-angle" class="value">0.0°</span></div>
+              <div class="tel-item"><span class="label">Speed (ω):</span> <span id="tel-speed" class="value">0.00 rad/s</span></div>
+              <div class="tel-item" id="tel-energy-item"><span class="label">Energy (E):</span> <span id="tel-energy" class="value">0.00 J</span></div>
+            </div>
+          </div>
+
+          <!-- Bottom Analytics & Equations in Left Column -->
+          <div class="analytics-row">
+            
+            <!-- Period Comparison Table (Project 1.9 highlight) -->
+            <div class="glass-card period-card" id="period-analysis-card">
+              <h3>Анализ периода колебаний</h3>
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Метод расчета</th>
+                      <th>Формула</th>
+                      <th>Период (T)</th>
+                      <th>Погрешность</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="bold">Гюйгенс (Малые углы)</td>
+                      <td class="formula">T = 2π√(l/g)</td>
+                      <td id="t-huygens" class="val">0.0000 s</td>
+                      <td id="err-huygens" class="err">-</td>
+                    </tr>
+                    <tr>
+                      <td class="bold">Эллиптический интеграл</td>
+                      <td class="formula">T = 4√(l/g)K(k)</td>
+                      <td id="t-elliptic" class="val">0.0000 s</td>
+                      <td class="exact">Точное</td>
+                    </tr>
+                    <tr class="highlight-row">
+                      <td class="bold">Численный (засечки равновесия)</td>
+                      <td class="formula">Интерполяция t(φ=0)</td>
+                      <td id="t-numeric" class="val">0.0000 s</td>
+                      <td id="err-numeric" class="success">0.00%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="table-note">* Погрешность численного метода рассчитана относительно точного эллиптического интеграла. Шаг времени Δt: <span id="note-dt">0.001</span>с.</p>
+            </div>
+
+            <!-- Dynamic Math Description Card -->
+            <div class="glass-card math-card">
+              <h3>Физическая модель & Уравнения</h3>
+              <div id="dynamic-math-content">
+                <!-- Injected dynamically by UI controller based on active tab -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Right Column: Interactive Sidebar & Telemetry Plots -->
+        <section id="right-column" class="glass-panel">
+          
+          <!-- Navigation Tabs (Choose Projects from Manual) -->
+          <nav class="mode-tabs">
+            <button class="tab-btn active" data-mode="mode1" id="tab-mode1">
+              <span class="num">1.9</span> Малые/Большие углы
+            </button>
+            <button class="tab-btn" data-mode="mode2" id="tab-mode2">
+              <span class="num">1.11</span> Затухание
+            </button>
+            <button class="tab-btn" data-mode="mode3" id="tab-mode3">
+              <span class="num">1.12</span> Маятник Фуко
+            </button>
+            <button class="tab-btn" data-mode="mode4" id="tab-mode4">
+              <span class="num">1.15</span> Резонанс
+            </button>
+          </nav>
+
+          <!-- Control Parameters Panel -->
+          <div class="controls-section">
+            <h3 class="section-title">Параметры симуляции</h3>
+            
+            <!-- Global Physics Parameters (always visible/disabled as needed) -->
+            <div class="control-group">
+              
+              <!-- Slider: Length l -->
+              <div class="slider-container" id="container-l">
+                <div class="slider-label">
+                  <span>Длина нити (l):</span>
+                  <span class="value-display"><span id="val-l">1.00</span> м</span>
+                </div>
+                <input type="range" id="input-l" min="0.1" max="5.0" step="0.05" value="1.0" class="styled-slider" />
+              </div>
+
+              <!-- Slider: Gravity g -->
+              <div class="slider-container" id="container-g">
+                <div class="slider-label">
+                  <span>Ускорение своб. падения (g):</span>
+                  <span class="value-display"><span id="val-g">9.81</span> м/с²</span>
+                </div>
+                <input type="range" id="input-g" min="1.0" max="25.0" step="0.1" value="9.81" class="styled-slider" />
+              </div>
+
+              <!-- Slider: Mass m -->
+              <div class="slider-container" id="container-m">
+                <div class="slider-label">
+                  <span>Масса груза (m):</span>
+                  <span class="value-display"><span id="val-m">1.00</span> кг</span>
+                </div>
+                <input type="range" id="input-m" min="0.1" max="10.0" step="0.1" value="1.0" class="styled-slider" />
+              </div>
+
+              <!-- Slider: Initial Angle phi0 -->
+              <div class="slider-container" id="container-phi0">
+                <div class="slider-label">
+                  <span id="label-phi0">Начальный угол (φ₀):</span>
+                  <span class="value-display"><span id="val-phi0">120</span>°</span>
+                </div>
+                <input type="range" id="input-phi0" min="0.1" max="179" step="1.0" value="120" class="styled-slider" />
+              </div>
+
+              <!-- Mode 2 (Damping) Specific Controls -->
+              <div class="mode-specific-fields" id="fields-mode2" style="display:none;">
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Коэффициент сопротивления (α):</span>
+                    <span class="value-display"><span id="val-alpha">0.20</span> кг/с</span>
+                  </div>
+                  <input type="range" id="input-alpha" min="0.0" max="5.0" step="0.05" value="0.2" class="styled-slider" />
+                </div>
+                <div class="toggle-container">
+                  <span class="toggle-title">Характер сопротивления:</span>
+                  <div class="radio-group">
+                    <label class="radio-label">
+                      <input type="radio" name="damping-type" value="linear" checked /> Линейное (-αv)
+                    </label>
+                    <label class="radio-label">
+                      <input type="radio" name="damping-type" value="quadratic" /> Квадратичное (-βv|v|)
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mode 3 (Foucault) Specific Controls -->
+              <div class="mode-specific-fields" id="fields-mode3" style="display:none;">
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Скорость вращения Земли (ω_земли):</span>
+                    <span class="value-display"><span id="val-omega">0.100</span> рад/с</span>
+                  </div>
+                  <input type="range" id="input-omega" min="0.0" max="0.5" step="0.005" value="0.1" class="styled-slider" />
+                  <span class="help-text">* Ускорена для наглядности (по методичке, период 6 мин)</span>
+                </div>
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Географическая широта (ψ):</span>
+                    <span class="value-display"><span id="val-latitude">45</span>°</span>
+                  </div>
+                  <input type="range" id="input-latitude" min="-90" max="90" step="1.0" value="45" class="styled-slider" />
+                </div>
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Отклонение по оси X (x₀):</span>
+                    <span class="value-display"><span id="val-x0">0.50</span> м</span>
+                  </div>
+                  <input type="range" id="input-x0" min="0.0" max="1.5" step="0.05" value="0.5" class="styled-slider" />
+                </div>
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Отклонение по оси Y (y₀):</span>
+                    <span class="value-display"><span id="val-y0">0.00</span> м</span>
+                  </div>
+                  <input type="range" id="input-y0" min="0.0" max="1.5" step="0.05" value="0.0" class="styled-slider" />
+                </div>
+              </div>
+
+              <!-- Mode 4 (Parametric Resonance) Specific Controls -->
+              <div class="mode-specific-fields" id="fields-mode4" style="display:none;">
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Амплитуда колебаний точки подвеса (a):</span>
+                    <span class="value-display"><span id="val-a">0.05</span> l</span>
+                  </div>
+                  <input type="range" id="input-a" min="0.0" max="0.2" step="0.005" value="0.05" class="styled-slider" />
+                </div>
+                <div class="slider-container">
+                  <div class="slider-label">
+                    <span>Расстройка частоты (ε):</span>
+                    <span class="value-display"><span id="val-epsilon">1.01</span></span>
+                  </div>
+                  <input type="range" id="input-epsilon" min="0.8" max="1.2" step="0.005" value="1.01" class="styled-slider" />
+                  <span class="help-text">* Частота накачки: ω = 2 * ω₀ * ε</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Integrator & Time Stepping controls -->
+          <div class="controls-section" id="section-integrator">
+            <h3 class="section-title">Метод численного решения</h3>
+            <div class="control-row">
+              <div class="select-container">
+                <label for="select-solver">Алгоритм:</label>
+                <select id="select-solver" class="styled-select">
+                  <option value="verlet" selected>Алгоритм Верле (Сохраняет энергию)</option>
+                  <option value="rk4">Рунге-Кутты 4 порядка (Высокая точность)</option>
+                  <option value="euler-cromer">Эйлера-Кромера (Симплектический)</option>
+                </select>
+              </div>
+              <div class="slider-container width-small">
+                <div class="slider-label">
+                  <span>Шаг Δt:</span>
+                  <span class="value-display"><span id="val-dt">0.001</span>с</span>
+                </div>
+                <input type="range" id="input-dt" min="0.0005" max="0.01" step="0.0005" value="0.001" class="styled-slider" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Execution Controls -->
+          <div class="execution-panel">
+            <button id="btn-play-pause" class="action-btn primary-action">Запустить</button>
+            <button id="btn-step" class="action-btn">Кадр</button>
+            <button id="btn-reset" class="action-btn">Сбросить</button>
+            <button id="btn-export-csv" class="action-btn secondary-action" title="Экспорт симуляции в CSV">Экспорт CSV</button>
+          </div>
+
+          <!-- Real-Time Charts Viewports -->
+          <div class="telemetry-charts-section">
+            
+            <div class="chart-container">
+              <h4 class="chart-title">График времени (Координата, Скорость, Энергия)</h4>
+              <canvas id="time-chart" class="plot-canvas"></canvas>
+            </div>
+
+            <div class="chart-container">
+              <h4 class="chart-title" id="xy-chart-title">Фазовая плоскость (φ, φ̇)</h4>
+              <canvas id="xy-chart" class="plot-canvas"></canvas>
+            </div>
+
+          </div>
+
+        </section>
+      </main>
+    </div>
+    
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
