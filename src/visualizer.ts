@@ -16,30 +16,30 @@ export class PendulumVisualizer {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
-  
+
   // 3D-модели элементов
   private ceiling!: THREE.Mesh;       // Диск подвеса на потолке
   private bob!: THREE.Mesh;           // Сферический хромированный груз
   private stringLine!: THREE.Line;    // Нить маятника
   private trail!: THREE.Line;         // Хвост траектории
   private floorGrid!: THREE.Group;    // Круговая разметка на полу (полярная сетка)
-  
+
   // Векторы сил (разноцветные стрелочки)
   private gravityArrow!: THREE.ArrowHelper;   // Зеленая стрелка силы тяжести
   private tensionArrow!: THREE.ArrowHelper;   // Синяя стрелка натяжения нити
   private coriolisArrow!: THREE.ArrowHelper;  // Красная стрелка силы Кориолиса
-  
+
   // Массив точек для рисования шлейфа траектории
   private trailPoints: THREE.Vector3[] = [];
   private maxTrailPoints = 2000;
-  
+
   // Параметры орбитальной камеры
   private cameraRadius = 6;              // Расстояние от камеры до центра
   private cameraTheta = Math.PI / 4;     // Угол поворота камеры по горизонтали (азимут)
   private cameraPhi = Math.PI / 3;       // Угол наклона камеры по вертикали (зенит)
   private isDragging = false;            // Флаг зажатия левой кнопки мыши
   private previousMousePosition = { x: 0, y: 0 };
-  
+
   // Переключатели отображения
   private showVectors = true;
   private showTrail = true;
@@ -55,13 +55,12 @@ export class PendulumVisualizer {
   }
 
   /**
-   * Инициализирует глобальную 3D сцену. Настраивает космический туман,
+   * Инициализирует глобальную 3D сцену. Настраивает
    * камеру перспективы и WebGL-рендерер с поддержкой мягких теней.
    */
   private initScene() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x0a0c10); // Темно-синий космический космос
-    this.scene.fog = new THREE.FogExp2(0x0a0c10, 0.08); // Легкий туман для глубины кадра
 
     const w = this.container.clientWidth, h = this.container.clientHeight;
     this.camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
@@ -137,7 +136,7 @@ export class PendulumVisualizer {
     // 5. Круговая сетка-компас на полу (полярная сетка, стр. 44 методички)
     this.floorGrid = new THREE.Group();
     this.floorGrid.position.y = -2.0; // Размещаем пол ниже самой низкой точки маятника
-    
+
     // Рисуем 6 концентрических окружностей сетки через каждые 0.5 м
     for (let r = 0.5; r <= 3.0; r += 0.5) {
       const isOut = Math.abs(r - 3.0) < 0.01, isPri = Math.abs(r - 1.5) < 0.01;
@@ -232,8 +231,8 @@ export class PendulumVisualizer {
    * @param suspensionOffsetZ Сдвиг точки подвеса по вертикали (для параметрического резонанса)
    */
   public updateState(
-    bobPos3D: Vector3D, 
-    tensionForceVec: Vector3D, 
+    bobPos3D: Vector3D,
+    tensionForceVec: Vector3D,
     coriolisForceVec: Vector3D,
     suspensionOffsetZ: number = 0
   ) {
@@ -246,7 +245,7 @@ export class PendulumVisualizer {
     const visualX = bobPos3D.x;
     const visualY = suspY + bobPos3D.z; // bobPos3D.z отрицательный (z - l)
     const visualZ = bobPos3D.y;
-    
+
     this.bob.position.set(visualX, visualY, visualZ);
 
     // 3. Обновление линии нити (от потолка до шарика)
@@ -269,7 +268,7 @@ export class PendulumVisualizer {
     if (this.showVectors) {
       this.gravityArrow.visible = this.tensionArrow.visible = true;
       const bobPos = new THREE.Vector3(visualX, visualY, visualZ);
-      
+
       // Сдвигаем все стрелочки к центру тяжести шарика
       this.gravityArrow.position.copy(bobPos);
       this.tensionArrow.position.copy(bobPos);
@@ -284,7 +283,7 @@ export class PendulumVisualizer {
       if (tVec.length() > 0.01) {
         this.tensionArrow.setDirection(tVec.clone().normalize());
         // Длина стрелки пропорциональна реальной физической силе натяжения
-        const arrowLen = Math.min(2.5, 0.3 + tensionForceVec.magnitude() * 0.05); 
+        const arrowLen = Math.min(2.5, 0.3 + tensionForceVec.magnitude() * 0.05);
         this.tensionArrow.setLength(arrowLen, 0.15, 0.08);
       }
 
