@@ -56,7 +56,7 @@ export class PendulumVisualizer {
 
   /**
    * Инициализирует глобальную 3D сцену. Настраивает
-   * камеру перспективы и WebGL-рендерер с поддержкой мягких теней.
+   * камеру перспективы и WebGL-рендерер.
    */
   private initScene() {
     this.scene = new THREE.Scene();
@@ -69,33 +69,22 @@ export class PendulumVisualizer {
     this.renderer = new THREE.WebGLRenderer({ antialias: true }); // Включаем сглаживание углов
     this.renderer.setSize(w, h);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Поддержка Retina экранов
-    this.renderer.shadowMap.enabled = true; // Разрешаем тени на сцене
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Мягкие, сглаженные тени
     this.container.appendChild(this.renderer.domElement);
   }
 
   /**
-   * Настраивает сложное премиальное освещение сцены:
-   * 1. Мягкий рассеянный окружающий свет (AmbientLight) с глубоким синим оттенком.
-   * 2. Направленный белый прожектор (DirectionalLight) для создания четких теней.
-   * 3. Синий неоновыйスポット-лайт (SpotLight), сфокусированный на центре маятника для объема.
+   * Настраивает простое стандартное освещение сцены:
+   * 1. Общий рассеянный свет (AmbientLight), чтобы всё было видно.
+   * 2. Направленный свет (DirectionalLight), чтобы шары казались объемными.
    */
   private initLights() {
-    this.scene.add(new THREE.AmbientLight(0x1a2233, 0.6));
+    // Простой белый рассеянный свет
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(5, 8, 5);
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.set(1024, 1024); // Высокое качество карт теней
-    dirLight.shadow.camera.near = 0.5;
-    dirLight.shadow.camera.far = 25;
-    dirLight.shadow.bias = -0.001; // Убираем артефакты самозатенения
+    // Обычный направленный свет сбоку
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(5, 10, 7);
     this.scene.add(dirLight);
-
-    const spotLight = new THREE.SpotLight(0x00d2ff, 4, 15, Math.PI / 6, 0.5, 1);
-    spotLight.position.set(0, 5, 0);
-    spotLight.castShadow = true;
-    this.scene.add(spotLight);
   }
 
   /**
@@ -108,7 +97,6 @@ export class PendulumVisualizer {
       new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.1, roughness: 0.8, emissive: 0x111111 })
     );
     this.ceiling.position.y = 2.5; // Точка подвеса находится на высоте y = 2.5 м
-    this.ceiling.receiveShadow = true;
     this.scene.add(this.ceiling);
 
     // 2. Шарик маятника (полированный зеркальный хром красивого бирюзового цвета)
@@ -116,7 +104,6 @@ export class PendulumVisualizer {
       new THREE.SphereGeometry(0.2, 32, 32),
       new THREE.MeshStandardMaterial({ color: 0x00ffcc, metalness: 0.95, roughness: 0.05, emissive: 0x003322 })
     );
-    this.bob.castShadow = this.bob.receiveShadow = true;
     this.scene.add(this.bob);
 
     // 3. Нить маятника (тонкая линия)
