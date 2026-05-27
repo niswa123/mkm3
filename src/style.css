@@ -6,19 +6,19 @@
   --glass-bg: rgba(22, 27, 34, 0.45);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-border-hover: rgba(255, 255, 255, 0.15);
-  
+
   /* Glowing Neon Palette */
   --neon-cyan: #00ffcc;
   --neon-blue: #3388ff;
   --neon-red: #ff3366;
   --neon-green: #39ff14;
   --neon-orange: #ff9900;
-  
+
   /* Text colors */
   --text-primary: #f0f6fc;
   --text-secondary: #8b949e;
   --text-dark: #484f58;
-  
+
   /* Typography */
   --font-main: 'Outfit', sans-serif;
   --font-code: 'Fira Code', monospace;
@@ -71,8 +71,13 @@ body {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 #lab-header h1 {
@@ -153,7 +158,7 @@ body {
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
 }
 
 #visualizer-container {
@@ -177,11 +182,12 @@ body {
   border-radius: 8px;
   border: 1px solid var(--glass-border);
   background: rgba(13, 17, 23, 0.75);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   z-index: 5;
 }
 
-.control-btn, .control-toggle {
+.control-btn,
+.control-toggle {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
@@ -259,7 +265,9 @@ body {
   flex-direction: column;
 }
 
-.period-card h3, .math-card h3, .section-title {
+.period-card h3,
+.math-card h3,
+.section-title {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -276,7 +284,7 @@ body {
   overflow: auto;
   border-radius: 8px;
   border: 1px solid var(--glass-border);
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .data-table {
@@ -286,7 +294,8 @@ body {
   text-align: left;
 }
 
-.data-table th, .data-table td {
+.data-table th,
+.data-table td {
   padding: 8px 12px;
   border-bottom: 1px solid var(--glass-border);
 }
@@ -355,7 +364,7 @@ body {
   padding: 8px;
   background: rgba(0, 0, 0, 0.15);
   border-radius: 6px;
-  border-left: 2px solid var(--neon-blue);
+  border: 1px solid var(--glass-border);
   font-family: var(--font-code);
   font-size: 12px;
   line-height: 1.6;
@@ -424,7 +433,7 @@ body {
 
 .tab-btn:hover {
   color: var(--text-primary);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .tab-btn.active {
@@ -592,7 +601,7 @@ body {
 /* Execution controls */
 .execution-panel {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 10px;
 }
 
@@ -641,7 +650,15 @@ body {
   box-shadow: 0 4px 20px rgba(0, 255, 204, 0.4);
 }
 
+.action-btn.secondary-action {
+  color: var(--neon-orange);
+  border-color: rgba(255, 153, 0, 0.25);
+}
 
+.action-btn.secondary-action:hover {
+  background: rgba(255, 153, 0, 0.08);
+  border-color: var(--neon-orange);
+}
 
 /* Plots & Charts grids */
 .telemetry-charts-section {
@@ -704,12 +721,12 @@ body {
     grid-template-columns: 1fr;
     overflow-y: auto;
   }
-  
+
   #left-column {
     height: auto;
     overflow: visible;
   }
-  
+
   #right-column {
     height: auto;
     overflow: visible;
