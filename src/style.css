@@ -50,7 +50,9 @@ body {
 /* Header Bar */
 #lab-header {
   height: 60px;
-  background-color: rgba(7, 9, 14, 0.9);
+  background-color: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--glass-border);
   display: flex;
   justify-content: space-between;
@@ -106,8 +108,8 @@ body {
 
 #current-mode-badge {
   color: var(--neon-cyan);
-  border-color: rgba(0, 255, 204, 0.25);
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.05);
+  border-color: rgba(8, 145, 178, 0.25);
+  box-shadow: 0 0 10px rgba(8, 145, 178, 0.05);
 }
 
 /* Main Workspace */
