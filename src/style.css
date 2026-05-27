@@ -592,7 +592,7 @@ body {
 /* Execution controls */
 .execution-panel {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 10px;
 }
 
@@ -641,15 +641,7 @@ body {
   box-shadow: 0 4px 20px rgba(0, 255, 204, 0.4);
 }
 
-.action-btn.secondary-action {
-  color: var(--neon-orange);
-  border-color: rgba(255, 153, 0, 0.25);
-}
 
-.action-btn.secondary-action:hover {
-  background: rgba(255, 153, 0, 0.08);
-  border-color: var(--neon-orange);
-}
 
 /* Plots & Charts grids */
 .telemetry-charts-section {

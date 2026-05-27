@@ -47,7 +47,7 @@ class SimulationController {
   private calculatedPeriods: number[] = [];
   private currentNumericalPeriod = 0;
 
-  // History buffers for plotting & CSV export
+  // History buffers for plotting
   private history: { t: number; val1: number; val2: number; energy: number }[] = [];
   private maxHistoryLength = 2000;
 
@@ -117,16 +117,6 @@ class SimulationController {
         this.resetSimulation();
       });
     }
-
-    // 4. Export CSV
-    const exportBtn = document.getElementById('btn-export-csv') as HTMLButtonElement;
-    if (exportBtn) {
-      exportBtn.addEventListener('click', () => {
-        const columns = ['Time(s)', 'Position', 'Velocity', 'Energy'];
-        this.ui.triggerCSVExport(this.history, columns);
-      });
-    }
-
     // 5. Visualizer Float Overlays
     const resetCamBtn = document.getElementById('btn-reset-camera') as HTMLButtonElement;
     if (resetCamBtn) {

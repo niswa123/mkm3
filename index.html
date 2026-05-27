@@ -250,14 +250,14 @@
           </div>
 
           <!-- Integrator & Time Stepping controls -->
-          <div class="controls-section" id="section-integrator">
+          <div class="controls-section" id="section-integrator" style="display: none;">
             <h3 class="section-title">Метод численного решения</h3>
             <div class="control-row">
               <div class="select-container">
                 <label for="select-solver">Алгоритм:</label>
                 <select id="select-solver" class="styled-select">
-                  <option value="verlet" selected>Алгоритм Верле (Сохраняет энергию)</option>
-                  <option value="rk4">Рунге-Кутты 4 порядка (Высокая точность)</option>
+                  <option value="rk4" selected>Рунге-Кутты 4 порядка (Высокая точность)</option>
+                  <option value="verlet">Алгоритм Верле (Сохраняет энергию)</option>
                   <option value="euler-cromer">Эйлера-Кромера (Симплектический)</option>
                 </select>
               </div>
@@ -276,7 +276,6 @@
             <button id="btn-play-pause" class="action-btn primary-action">Запустить</button>
             <button id="btn-step" class="action-btn">Кадр</button>
             <button id="btn-reset" class="action-btn">Сбросить</button>
-            <button id="btn-export-csv" class="action-btn secondary-action" title="Экспорт симуляции в CSV">Экспорт CSV</button>
           </div>
 
           <!-- Real-Time Charts Viewports -->
