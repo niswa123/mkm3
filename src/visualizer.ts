@@ -60,7 +60,7 @@ export class PendulumVisualizer {
    */
   private initScene() {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0a0c10); // Темно-синий космический космос
+    this.scene.background = new THREE.Color(0xf8fafc); // Светло-серый профессиональный фон
 
     const w = this.container.clientWidth, h = this.container.clientHeight;
     this.camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);

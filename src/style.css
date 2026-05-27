@@ -1,23 +1,23 @@
 /* 3D Physical Laboratory Design System - Pure Vanilla CSS */
 
 :root {
-  --bg-dark: #07090e;
-  --panel-bg: rgba(13, 17, 23, 0.7);
-  --glass-bg: rgba(22, 27, 34, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --bg-dark: #f8fafc;
+  --panel-bg: rgba(255, 255, 255, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-border-hover: rgba(15, 23, 42, 0.16);
 
-  /* Glowing Neon Palette */
-  --neon-cyan: #00ffcc;
-  --neon-blue: #3388ff;
-  --neon-red: #ff3366;
-  --neon-green: #39ff14;
-  --neon-orange: #ff9900;
+  /* High-Contrast Professional Palette */
+  --neon-cyan: #0891b2;
+  --neon-blue: #1d4ed8;
+  --neon-red: #e11d48;
+  --neon-green: #16a34a;
+  --neon-orange: #d97706;
 
   /* Text colors */
-  --text-primary: #f0f6fc;
-  --text-secondary: #8b949e;
-  --text-dark: #484f58;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-dark: #94a3b8;
 
   /* Typography */
   --font-main: 'Outfit', sans-serif;
@@ -181,14 +181,14 @@ body {
   padding: 6px;
   border-radius: 8px;
   border: 1px solid var(--glass-border);
-  background: rgba(13, 17, 23, 0.75);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: var(--panel-bg);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
   z-index: 5;
 }
 
 .control-btn,
 .control-toggle {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.03);
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
   font-family: var(--font-main);
@@ -204,19 +204,18 @@ body {
 }
 
 .control-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.06);
   border-color: var(--text-secondary);
 }
 
 .control-toggle:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .control-toggle.active {
-  background: rgba(0, 255, 204, 0.15);
+  background: rgba(8, 145, 178, 0.08);
   border-color: var(--neon-cyan);
   color: var(--neon-cyan);
-  text-shadow: 0 0 5px rgba(0, 255, 204, 0.4);
 }
 
 .floating-telemetry {
@@ -226,7 +225,8 @@ body {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid var(--glass-border);
-  background: rgba(13, 17, 23, 0.75);
+  background: var(--panel-bg);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -477,7 +477,7 @@ body {
 }
 
 .styled-select {
-  background: rgba(22, 27, 34, 0.85);
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
   font-family: var(--font-main);
